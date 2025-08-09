@@ -1,0 +1,32 @@
+name: Java Compilation Check
+
+on:
+  pull_request:
+    branches:
+      - 'profit_deployment_*'
+    paths:
+      - '**/*.java'
+
+jobs:
+  compile-java:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Compile Java files
+        run: |
+          mkdir -p out
+          find src -name "*.java" > sources.txt
+          if [ ! -s sources.txt ]; then
+            echo "No Java files found to compile."
+            exit 0
+          fi
+          javac -d out @sources.txt
