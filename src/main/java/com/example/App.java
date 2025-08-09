@@ -5,3 +5,4 @@ public class App {
         System.out.println("Java Maven build check passed!");
     }
 }
+
